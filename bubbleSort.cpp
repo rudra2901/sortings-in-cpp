@@ -40,8 +40,13 @@ int main() {
     for(int i = 0; i < n; i++)
         cin>>arr[i];
     
+    auto start = high_resolution_clock::now();
     bubbleSort(arr, n);
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end-start);
+    
     printArray(arr, n);
+    cout<<"\n Time Used : "<<duration.count()<<"microsecond \n";
     
     return 0;
 }
