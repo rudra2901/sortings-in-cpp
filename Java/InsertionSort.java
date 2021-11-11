@@ -1,16 +1,19 @@
 import java.util.Scanner;
 
-class BubbleSort {
-    //Function for Sorting
-    void BubbleSort (int arr[], int n) {
-
-	for(int i = 0; i < n-1; i++)
-	    for(int j = 0; j < n-i-1; j++)
-		if(arr[j] > arr[j+1]) {
-		    int temp = arr[j];
-		    arr[j] = arr[j+1];
-		    arr[j+1] = temp;
-		}
+class InsertionSort {
+    // Insertion Sort Function
+    void insertionSort(int arr[], int n) {
+	int i, key, j;
+	for (i = 1; i < n; i++) {
+	    key = arr[i];
+	    j = i - 1;
+ 
+	    while (j >= 0 && arr[j] > key) {
+		arr[j + 1] = arr[j];
+		j--;
+	    }
+	    arr[j + 1] = key;
+	}
     }
 
     // Array printing function
@@ -24,7 +27,7 @@ class BubbleSort {
     //Driver function
     public static void main(String args[]) {
 	Scanner sc = new Scanner(System.in);
-	BubbleSort obj = new BubbleSort();
+	InsertionSort obj = new InsertionSort();
 
 	int n;	
 	n = sc.nextInt();	
