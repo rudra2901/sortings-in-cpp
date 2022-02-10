@@ -3,6 +3,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
+#include <fstream>
+
+#define FILEIO freopen("input.txt", "r", stdin); freopen("output.txt", "w", stdout);
 
 using namespace std;
 using namespace std::chrono;
@@ -278,6 +281,71 @@ void quickSort(int *arr,int l,int r){
     }
 }
 
+//Quick Sort with median of three
+// Insertion Sort Function
+void insertionSort(int arr[], int l, int r) {
+    int i, key, j;
+    for (i = l; i <= r; i++) {
+        key = arr[i];
+        j = i - 1;
+ 
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+// Quick Sort Implementation
+
+//Partition with middle of three elements
+int medianOf3(int* arr, int l, int r) {
+    int mid = (l + r) / 2;
+
+    if (arr[mid] < arr[l])
+        swap(arr[mid], arr[l]);
+
+    if (arr[r] < arr[l])
+        swap(arr[r], arr[l]);
+
+    if (arr[mid] > arr[r])
+        swap(arr[mid], arr[r]);
+
+    swap(arr[mid], arr[r - 1]);
+
+    return arr[r - 1];
+}
+
+int partition(int* arr, int l, int r, int pivot) {
+    int i = l + 1;
+    int j = r - 2;
+    while (i < j)
+    {
+        while (arr[i] < pivot)
+            i++;
+        while (arr[j] > pivot)
+            j--;
+        if (i < j)
+            swap(arr[i], arr[j]);
+    }
+    swap(arr[i], arr[r - 1]);
+
+    return i;
+}
+
+void quickSort3(int *arr,int l,int r){
+    if(r-l < 5)
+        insertionSort(arr, l, r);
+
+    else if(l < r) {
+        int pivot = medianOf3(arr, l, r);
+        int p = partition(arr,l,r, pivot);
+        quickSort(arr,l,p-1);
+        quickSort(arr,p+1,r);
+    }
+}
+
 //Bucket Sort Implementation
 void bucketSort(double arr[], int n) {
     vector<double> b[n];
@@ -298,6 +366,18 @@ void bucketSort(double arr[], int n) {
 
 //Driver Function
 int main() {
+
+    FILEIO
+    fstream tf, sf, cf;
+    sf.open("sizesmm.txt", ios::out);
+    tf.open("timemm.txt", ios::out);
+
+    sf<<10<<endl
+      <<20<<endl
+      <<50<<endl
+      <<100<<endl
+      <<1000;
+
     int a[10], b[20], c[50], d[100], e[1000];
     arrayGenerator(a, 10);
     arrayGenerator(b, 20);
@@ -318,6 +398,8 @@ int main() {
         test[3].push_back(d[j]);
     for(int j = 0; j < 1000; j++)
         test[4].push_back(e[j]);
+
+    /*
     
     cout<<"\n\n\t\t\t\t\t\t BUBBLE SORT\n";
     cout<<"\n Size  |  Run 1  |  Run 2  |  Run 3  |  Run 4  |  Run 5  |  Avg  ";
@@ -487,6 +569,7 @@ int main() {
         delete [] output;
     }
     cout<<"\n";
+    */
     
     cout<<"\n\n\t\t\t\t\t\t QUICK SORT\n";
     cout<<"\n Size  |  Run 1  |  Run 2  |  Run 3  |  Run 4  |  Run 5  |  Avg  ";
@@ -525,10 +608,56 @@ int main() {
         }
         avg = (avg/5);
         cout<<"   "<<avg;
+        tf<<avg<<endl;
         
         delete [] temp;
     }
     cout<<"\n";
+
+    cout<<"\n\n\t\t\t\t QUICK SORT With median of 3\n";
+    cout<<"\n Size  |  Run 1  |  Run 2  |  Run 3  |  Run 4  |  Run 5  |  Avg  ";
+    for(int i = 0; i < 5; i++) {
+        
+        cout<<"\n "<<sizes[i];
+        if(i <= 2)
+            cout<<"    |";
+        else if(i == 3)
+            cout<<"   |";
+        else
+            cout<<"  |";
+        
+        int *temp = new int[sizes[i]];
+
+        double avg = 0.00;
+        for(int j = 0; j < 5; j++) {
+            for(int j = 0; j < sizes[i]; j++)
+                temp[j] = test[i][j];
+            
+            auto start = high_resolution_clock::now();
+            quickSort3(temp, 0, sizes[i] - 1);
+            auto end = high_resolution_clock::now();
+            
+            auto duration = duration_cast<microseconds>(end-start);
+            long long count = duration.count();
+            avg += count;
+            if(count < 10)
+                cout<<"    "<<count<<"    |";
+            else if(count < 100)
+                cout<<"    "<<count<<"   |";
+            else if(count < 1000)
+                cout<<"    "<<count<<"  |";
+            else if(count < 10000)
+                cout<<"   "<<count<<"  |";
+        }
+        avg = (avg/5);
+        cout<<"   "<<avg;
+        tf<<avg<<endl;
+        
+        delete [] temp;
+    }
+    cout<<"\n";
+
+    /*
     
     cout<<"\n\n\t\t\t\t\t\t MERGE SORT\n";
     cout<<"\n Size  |  Run 1  |  Run 2  |  Run 3  |  Run 4  |  Run 5  |  Avg  ";
@@ -655,6 +784,7 @@ int main() {
         delete [] temp;
     }
     cout<<"\n";
+    */
     
     return 0;
 }
