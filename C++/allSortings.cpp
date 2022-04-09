@@ -399,7 +399,6 @@ int main() {
     for(int j = 0; j < 1000; j++)
         test[4].push_back(e[j]);
 
-    /*
     
     cout<<"\n\n\t\t\t\t\t\t BUBBLE SORT\n";
     cout<<"\n Size  |  Run 1  |  Run 2  |  Run 3  |  Run 4  |  Run 5  |  Avg  ";
@@ -569,7 +568,6 @@ int main() {
         delete [] output;
     }
     cout<<"\n";
-    */
     
     cout<<"\n\n\t\t\t\t\t\t QUICK SORT\n";
     cout<<"\n Size  |  Run 1  |  Run 2  |  Run 3  |  Run 4  |  Run 5  |  Avg  ";
@@ -656,8 +654,6 @@ int main() {
         delete [] temp;
     }
     cout<<"\n";
-
-    /*
     
     cout<<"\n\n\t\t\t\t\t\t MERGE SORT\n";
     cout<<"\n Size  |  Run 1  |  Run 2  |  Run 3  |  Run 4  |  Run 5  |  Avg  ";
@@ -784,7 +780,6 @@ int main() {
         delete [] temp;
     }
     cout<<"\n";
-    */
     
     return 0;
 }
